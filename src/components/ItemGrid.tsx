@@ -52,7 +52,7 @@ export function ItemGrid() {
   // Claim dialog state
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
-  const [claimTarget, setClaimTarget] = useState<{ type: "donated" | "placeholder"; id: string; name: string } | null>(null);
+  const [claimTarget, setClaimTarget] = useState<{ type: "donated" | "placeholder"; id: string; name: string; email: string } | null>(null);
 
   useEffect(() => {
     // Fetch initial data
@@ -79,8 +79,8 @@ export function ItemGrid() {
     };
   }, []);
 
-  const handleClaimAttempt = (type: "donated" | "placeholder", id: string, name: string) => {
-    setClaimTarget({ type, id, name });
+  const handleClaimAttempt = (type: "donated" | "placeholder", id: string, name: string, email: string) => {
+    setClaimTarget({ type, id, name, email });
     setConfirmOpen(true);
   };
 
@@ -148,7 +148,7 @@ export function ItemGrid() {
                   createdAt: item.created_at,
                 }}
                 isNew={index === 0}
-                onClaim={(mappedItem) => handleClaimAttempt("donated", mappedItem.id, mappedItem.itemName)}
+                onClaim={(mappedItem) => handleClaimAttempt("donated", mappedItem.id, mappedItem.itemName, mappedItem.contactEmail)}
               />
             ))}
 
@@ -162,7 +162,7 @@ export function ItemGrid() {
                 condition={item.condition}
                 location={item.location}
                 imageUrl={item.imageUrl}
-                onClaim={() => handleClaimAttempt("placeholder", item.id, item.name)}
+                onClaim={() => handleClaimAttempt("placeholder", item.id, item.name, "donor@heartshare.example.com")}
               />
             ))}
           </div>
@@ -178,7 +178,7 @@ export function ItemGrid() {
       />
 
       {/* Success Modal */}
-      <ClaimSuccessDialog open={successOpen} onOpenChange={handleSuccessClose} />
+      <ClaimSuccessDialog open={successOpen} onOpenChange={handleSuccessClose} contactEmail={claimTarget?.email || ""} />
     </section>
   );
 }
