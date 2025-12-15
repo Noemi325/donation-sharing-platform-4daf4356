@@ -52,9 +52,10 @@ export function ClaimConfirmDialog({
 interface ClaimSuccessDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  contactEmail: string;
 }
 
-export function ClaimSuccessDialog({ open, onOpenChange }: ClaimSuccessDialogProps) {
+export function ClaimSuccessDialog({ open, onOpenChange, contactEmail }: ClaimSuccessDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
@@ -63,8 +64,12 @@ export function ClaimSuccessDialog({ open, onOpenChange }: ClaimSuccessDialogPro
             <CheckCircle className="h-8 w-8 text-primary" />
           </div>
           <DialogTitle className="text-center text-xl">Claim Successful</DialogTitle>
-          <DialogDescription className="text-center">
-            The item has been claimed and removed from the listing. Thank you for using HeartShare Platform!
+          <DialogDescription className="text-center space-y-3">
+            <p>Congratulations! Please contact the donor using this email address:</p>
+            <p className="font-semibold text-foreground bg-muted px-4 py-2 rounded-md break-all">
+              {contactEmail}
+            </p>
+            <p className="text-sm">Thank you for using HeartShare Platform!</p>
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-center mt-4">
